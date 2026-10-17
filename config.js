@@ -16,14 +16,21 @@
  *   ・設問IDの一覧は「項目一覧.csv」を参照してください
  */
 window.SURVEY_CONFIG = {
-  mode: "demo",
+  mode: "web-to-lead",
 
   webToLead: {
-    endpoint: "https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8",
-    oid: "", // 組織ID（00D から始まる15桁）
-    leadSource: "Webアンケート", // リードソースの値（選択リストに存在する値にしてください）
+    endpoint: "https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&orgId=00Dd500000IyWXS",
+    oid: "00Dd500000IyWXS", // 組織ID（00D から始まる15桁）
+    leadSource: "Web", // リードソースの値（選択リストに存在する値にしてください）
+    // 会社名はリードの必須項目のため、個人のお客様は固定の値を入れる
+    company: "個人のお客様",
     debug: false, // true にすると Salesforce からデバッグメールが届きます（テスト時のみ）
     debugEmail: "",
+    // Salesforce で「reCAPTCHA を要求」が有効な場合に設定（Web-to-リード作成画面で生成されたHTMLの値）
+    recaptcha: {
+      siteKey: "6LcN-PMtAAAAAPF7io4TXJX_sSaqrGdOfAd41CsR",
+      keyName: "kabaya",
+    },
   },
 
   formHandler: {
@@ -35,7 +42,8 @@ window.SURVEY_CONFIG = {
   surveyTypeLabels: { pre: "来場前アンケート", post: "来場後アンケート", lost: "失注アンケート" },
 
   fieldMap: {
-    pre: { last_name: "last_name", first_name: "first_name", email: "email", phone: "phone", zip: "zip", state: "state", city: "city", street: "street" },
+    // 都道府県・国が選択リスト（state_code / country_code）の組織では、都道府県は「説明」欄に入る
+    pre: { last_name: "last_name", first_name: "first_name", email: "email", phone: "phone", zip: "zip", city: "city", street: "street" },
     post: { last_name: "last_name", first_name: "first_name", email: "email" },
     lost: { last_name: "last_name", first_name: "first_name", email: "email" },
   },

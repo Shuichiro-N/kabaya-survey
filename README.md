@@ -38,6 +38,9 @@
    - カスタム項目の名前（00N から始まるID）→ `fieldMap` の各設問IDの右側
 3. `mode` を `"web-to-lead"` にします。
 4. テスト時は `debug: true` と `debugEmail` を設定すると、Salesforce からデバッグメールが届きます。
+5. Salesforce で「reCAPTCHA を要求」が有効な場合（新しい組織では必須）は、Google reCAPTCHA v2（チェックボックス）のキーを作って Salesforce に登録し、生成HTMLの `data-sitekey` と `keyname` を `webToLead.recaptcha` に書きます。reCAPTCHA の管理画面には、公開するドメイン（例：lifedesign-kabaya.co.jp）を登録してください。
+6. リードの必須項目「会社名」には `webToLead.company` の値（初期値：個人のお客様）が入ります。
+7. 都道府県・国が選択リストになっている組織では、都道府県は「説明」欄に入ります（`state_code` は数値コードのため）。
 
 ### 方法B：Account Engagement（旧 Pardot）のフォームハンドラー
 

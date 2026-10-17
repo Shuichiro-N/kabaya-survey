@@ -107,6 +107,7 @@ input:focus, select:focus, textarea:focus { outline: 3px solid rgba(63, 95, 115,
 .card--agree { justify-content: center; text-align: center; }
 .choice--agree { border: 0; background: none; justify-content: center; }
 .choice--agree a { color: var(--accent); }
+.captcha { display: flex; justify-content: center; flex-basis: 100%; margin-top: 12px; min-height: 78px; }
 
 .actions { margin-top: 24px; text-align: center; }
 .submit {

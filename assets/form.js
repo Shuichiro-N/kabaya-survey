@@ -12,6 +12,9 @@
   if (!survey || !root) return;
 
   var questions = survey.questions;
+  var w2l = config.webToLead || {};
+  var useCaptcha = config.mode === "web-to-lead" && !!(w2l.recaptcha && w2l.recaptcha.siteKey);
+  var captchaId = null;
   var byId = {};
   questions.forEach(function (q) { byId[q.id] = q; });
 
@@ -134,6 +137,8 @@
         ]),
       ]),
       el("p", { class: "error", id: "agree-error", role: "alert" }),
+      useCaptcha ? el("div", { class: "captcha", id: "captcha" }) : null,
+      useCaptcha ? el("p", { class: "error", id: "captcha-error", role: "alert" }) : null,
     ]);
     form.appendChild(privacy);
     form.appendChild(el("div", { class: "actions" }, [el("button", { type: "submit", class: "submit", id: "submit", text: "回答を送信する" })]));
@@ -152,6 +157,22 @@
     root.appendChild(el("footer", { class: "site-footer", text: "© " + (config.companyName || "") }));
     prefill();
     update();
+    if (useCaptcha) loadCaptcha();
+  }
+
+  // Salesforce の Web-to-リードで必須の reCAPTCHA（v2 チェックボックス）
+  function loadCaptcha() {
+    window.__onCaptchaLoad = function () {
+      captchaId = window.grecaptcha.render("captcha", {
+        sitekey: w2l.recaptcha.siteKey,
+        callback: function () { document.getElementById("captcha-error").textContent = ""; },
+      });
+    };
+    document.head.appendChild(el("script", { src: "https://www.google.com/recaptcha/api.js?onload=__onCaptchaLoad&render=explicit&hl=ja", async: true, defer: true }));
+  }
+
+  function captchaToken() {
+    return captchaId !== null && window.grecaptcha ? window.grecaptcha.getResponse(captchaId) : "";
   }
 
   // 担当者がURLに付けた値（?last_name=…&email=…&visit_place=… など）を最初から入れておく
@@ -211,6 +232,11 @@
     var agreeMsg = agree.checked ? "" : "プライバシーポリシーへの同意が必要です";
     document.getElementById("agree-error").textContent = agreeMsg;
     if (agreeMsg && !first) first = agree.closest(".card");
+    if (useCaptcha) {
+      var capMsg = captchaToken() ? "" : "「私はロボットではありません」にチェックしてください";
+      document.getElementById("captcha-error").textContent = capMsg;
+      if (capMsg && !first) first = document.getElementById("captcha");
+    }
     if (first) {
       first.scrollIntoView({ behavior: "smooth", block: "center" });
       var focusable = first.querySelector("input, select, textarea");
@@ -281,6 +307,11 @@
     if (config.mode === "web-to-lead" && config.webToLead && config.webToLead.oid) {
       var w = config.webToLead;
       fields.oid = w.oid;
+      if (w.company) fields.company = w.company;
+      if (useCaptcha) {
+        fields.captcha_settings = JSON.stringify({ keyname: w.recaptcha.keyName, fallback: "true", orgId: w.oid, ts: String(Date.now()) });
+        fields["g-recaptcha-response"] = captchaToken();
+      }
       fields.retURL = location.href.split("#")[0].split("?")[0] + "#sent";
       if (w.leadSource) fields.lead_source = w.leadSource;
       if (w.debug) { fields.debug = "1"; fields.debugEmail = w.debugEmail || ""; }
