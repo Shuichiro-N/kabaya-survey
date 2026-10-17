@@ -38,13 +38,22 @@ window.SURVEY_CONFIG = {
   },
 
   // アンケートの種類を Salesforce に送る項目（リードの区別に使う）。不要なら空文字
-  surveyTypeField: "",
+  surveyTypeField: "00NQ800000XntoM", // アンケート種別（Survey_Type__c）
   surveyTypeLabels: { pre: "来場前アンケート", post: "来場後アンケート", lost: "失注アンケート" },
 
   fieldMap: {
     // 都道府県・国が選択リスト（state_code / country_code）の組織では、都道府県は「説明」欄に入る
-    pre: { last_name: "last_name", first_name: "first_name", email: "email", phone: "phone", zip: "zip", city: "city", street: "street" },
-    post: { last_name: "last_name", first_name: "first_name", email: "email" },
+    pre: {
+      last_name: "last_name", first_name: "first_name", email: "email", phone: "phone", zip: "zip", city: "city", street: "street",
+      visit_place: "00NQ800000Xnztl", // 来場会場（Visit_Place__c）
+      desired_timing: "00NQ800000Xnzwz", // 入居希望時期（Desired_Timing__c）
+    },
+    post: {
+      last_name: "last_name", first_name: "first_name", email: "email",
+      visit_place: "00NQ800000Xnztl", // 来場会場（Visit_Place__c）
+      satisfaction: "00NQ800000Xo01p", // 来場満足度（Satisfaction__c）
+      purchase_possibility: "00NQ800000Xo053", // 成約の可能性（Purchase_Possibility__c）
+    },
     lost: { last_name: "last_name", first_name: "first_name", email: "email" },
   },
 
