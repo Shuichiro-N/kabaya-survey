@@ -45,7 +45,7 @@ window.SURVEY_CONFIG = {
   },
   // アンケート種別を送るアンケート。Salesforce の選択リストに値がない種別を送るとリードが作られないため、
   // 選択リストに値を追加したアンケートだけをここに入れる
-  surveyTypeSendFor: ["pre", "post", "lost"],
+  surveyTypeSendFor: ["pre", "post", "lost", "is_pre", "is_post", "is_lost"],
 
   fieldMap: {
     // 都道府県・国が選択リスト（state_code / country_code）の組織では、都道府県は「説明」欄に入る
