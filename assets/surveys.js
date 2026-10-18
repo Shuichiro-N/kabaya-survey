@@ -193,9 +193,9 @@
         { id: "city", short: "市区町村", label: "市区町村", type: "text", autocomplete: "address-level2", half: true },
 
         { id: "request_source", short: "資料請求のきっかけ", label: "当社をどこでお知りになりましたか？", type: "radio", required: true, section: "資料請求について",
-          options: ["SUUMOなどの住宅ポータルサイト", "当社ホームページ", "Instagram・SNS", "チラシ・情報誌", "展示場の前を通って", "知人・家族の紹介", "その他"] },
+          options: ["SUUMO注文住宅ネット", "その他の住宅ポータルサイト", "当社ホームページ", "Instagram・SNS", "チラシ・情報誌", "展示場の前を通って", "知人・家族の紹介", "その他"] },
         { id: "want_to_know", short: "知りたいこと", label: "資料で特に知りたいことをお選びください。", type: "checkbox", required: true,
-          options: ["地震に強い構造（CLTハイブリッド構法）", "間取り・プランの事例", "価格・費用の目安", "資金計画・住宅ローン", "土地探し", "デザイン・施工事例", "断熱・光熱費", "その他"] },
+          options: ["CLTハイブリッド構法について", "間取り・プランの事例", "価格・費用の目安", "資金計画・住宅ローン", "土地探し", "デザイン・施工事例", "断熱・光熱費", "その他"] },
 
         { id: "stage", short: "検討段階", label: "現在の家づくりの段階に近いものをお選びください。", type: "radio", required: true, section: "ご検討の状況",
           options: ["情報収集を始めたばかり", "展示場をいくつか見た", "住宅会社を比較している", "土地を探している", "他社と具体的に打ち合わせ中"] },
