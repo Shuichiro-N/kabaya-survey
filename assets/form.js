@@ -257,12 +257,26 @@
   }
 
   // 「説明」欄に入れる、全回答のまとめ（Salesforce側にカスタム項目がなくても回答が残るように）
+  // 名前・連絡先はリードの標準項目に入るので、説明欄には書かない
+  var SUMMARY_SKIP = ["last_name", "first_name", "email", "phone", "zip", "city", "street"];
+
   function summary(list) {
     var labels = config.surveyTypeLabels || {};
-    var lines = ["【" + (labels[key] || survey.title) + "】" + new Date().toLocaleString("ja-JP")];
-    list.forEach(function (a) {
-      lines.push("■" + a.q.label);
-      lines.push(Array.isArray(a.value) ? a.value.join("、") : a.value);
+    var when = new Date().toLocaleString("ja-JP", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" });
+    var lines = ["【" + (labels[key] || survey.title) + "】" + when];
+    var answered = {};
+    list.forEach(function (a) { answered[a.q.id] = a.value; });
+    var section = "";
+    var printed = "";
+    questions.forEach(function (q) {
+      if (q.section) section = q.section;
+      if (!(q.id in answered) || SUMMARY_SKIP.indexOf(q.id) !== -1) return;
+      if (section && section !== printed) {
+        lines.push("＜" + section + "＞");
+        printed = section;
+      }
+      var v = answered[q.id];
+      lines.push("・" + (q.short || q.label) + "：" + (Array.isArray(v) ? v.join("、") : String(v).replace(/\s*\n\s*/g, " ")));
     });
     return lines.join("\n").slice(0, 31000);
   }
