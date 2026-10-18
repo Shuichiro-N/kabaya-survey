@@ -305,7 +305,8 @@
       if (target) fields[target] = Array.isArray(a.value) ? a.value.join(";") : a.value;
     });
     fields.description = summary(list);
-    if (config.surveyTypeField) fields[config.surveyTypeField] = (config.surveyTypeLabels || {})[key] || key;
+    var sendType = !config.surveyTypeSendFor || config.surveyTypeSendFor.indexOf(key) !== -1;
+    if (config.surveyTypeField && sendType) fields[config.surveyTypeField] = (config.surveyTypeLabels || {})[key] || key;
     return fields;
   }
 
@@ -343,7 +344,7 @@
     main.textContent = "";
     main.appendChild(el("section", { class: "intro thanks" }, [
       el("h1", { text: "ご回答ありがとうございました" }),
-      el("p", { text: key === "lost"
+      el("p", { text: /lost$/.test(key)
         ? "貴重なご意見をありがとうございました。今後のサービス改善に役立ててまいります。"
         : "いただいた内容をもとに、担当者よりご案内いたします。今後ともよろしくお願いいたします。" }),
     ]));

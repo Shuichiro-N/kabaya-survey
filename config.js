@@ -39,7 +39,13 @@ window.SURVEY_CONFIG = {
 
   // アンケートの種類を Salesforce に送る項目（リードの区別に使う）。不要なら空文字
   surveyTypeField: "00NQ800000XntoM", // アンケート種別（Survey_Type__c）
-  surveyTypeLabels: { pre: "来場前アンケート", post: "来場後アンケート", lost: "失注アンケート" },
+  surveyTypeLabels: {
+    pre: "来場前アンケート", post: "来場後アンケート", lost: "失注アンケート",
+    is_pre: "IS資料請求アンケート", is_post: "IS電話後アンケート", is_lost: "IS見送りアンケート",
+  },
+  // アンケート種別を送るアンケート。Salesforce の選択リストに値がない種別を送るとリードが作られないため、
+  // 選択リストに値を追加したアンケートだけをここに入れる
+  surveyTypeSendFor: ["pre", "post", "lost"],
 
   fieldMap: {
     // 都道府県・国が選択リスト（state_code / country_code）の組織では、都道府県は「説明」欄に入る
@@ -55,6 +61,14 @@ window.SURVEY_CONFIG = {
       purchase_possibility: "00NQ800000Xo053", // 成約の可能性（Purchase_Possibility__c）
     },
     lost: { last_name: "last_name", first_name: "first_name", email: "email" },
+    // インサイドセールス用
+    is_pre: {
+      last_name: "last_name", first_name: "first_name", email: "email", phone: "phone", city: "city",
+      desired_timing: "00NQ800000Xnzwz", // 入居希望時期（Desired_Timing__c）
+      visit_place: "00NQ800000Xnztl", // 来場会場（Visit_Place__c）
+    },
+    is_post: { last_name: "last_name", first_name: "first_name", email: "email", visit_place: "00NQ800000Xnztl" },
+    is_lost: { last_name: "last_name", first_name: "first_name", email: "email" },
   },
 
   privacyUrl: "https://lifedesign-kabaya.co.jp/privacy/",

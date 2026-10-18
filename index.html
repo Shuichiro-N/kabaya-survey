@@ -25,7 +25,7 @@
   <main class="container">
     <section class="intro">
       <h1>来場アンケート（社内向け案内）</h1>
-      <p>お客様に送るアンケートは3種類です。回答は Salesforce に自動で登録されます（送信先の設定は config.js）。</p>
+      <p>お客様に送るアンケートは、営業（展示場）用3種類と、インサイドセールス用3種類です。回答は Salesforce に自動で登録されます（送信先の設定は config.js）。</p>
     </section>
 
     <section class="card">
@@ -38,13 +38,22 @@
     </section>
 
     <section class="card">
+      <h2>インサイドセールス用（資料請求者への0次接客）</h2>
+      <div class="links">
+        <a class="link-card" href="is-pre.html" target="_blank"><strong>④ 資料請求者アンケート（約2分）</strong><span>資料請求の直後（資料送付のメールなど）に送る。お電話の前に、関心ごと・検討段階・つながりやすい時間帯を把握してアポ獲得率を上げる</span></a>
+        <a class="link-card" href="is-post.html" target="_blank"><strong>⑤ お電話後アンケート（約1分）</strong><span>お電話のあとに送る。電話の印象・見学の意向を担当者ごとに集め、トークや架電タイミングの改善に使う</span></a>
+        <a class="link-card" href="is-lost.html" target="_blank"><strong>⑥ 見学見送りアンケート（約1分）</strong><span>アポに至らなかった方・連絡がつかない方に送る。見学しない理由と連絡の印象を集めて改善に使う</span></a>
+      </div>
+    </section>
+
+    <section class="card">
       <h2>お客様に送るURLを作る</h2>
       <div class="builder">
         <p class="note" style="margin:0;color:var(--muted);font-size:13px">展示場・担当者をあらかじめ入れたURLを作れます。お名前・メールアドレスは、個人情報がURLに残らないよう、お客様ご自身に入力していただきます。</p>
         <div class="field"><label class="label" for="b-type">アンケート</label>
-          <select id="b-type"><option value="pre">① 来場前</option><option value="post" selected>② 来場後</option><option value="lost">③ 失注者</option></select></div>
+          <select id="b-type"><option value="pre">① 来場前</option><option value="post" selected>② 来場後</option><option value="lost">③ 失注者</option><option value="is-pre">④ IS 資料請求者</option><option value="is-post">⑤ IS お電話後</option><option value="is-lost">⑥ IS 見学見送り</option></select></div>
         <div class="field"><label class="label" for="b-place">展示場（任意）</label><select id="b-place"><option value="">指定しない</option></select></div>
-        <div class="field"><label class="label" for="b-staff">担当者名（任意・来場後のみ）</label><input id="b-staff" type="text" maxlength="40" placeholder="例）山田"></div>
+        <div class="field"><label class="label" for="b-staff">担当者名（任意・② 来場後と ⑤ お電話後のみ）</label><input id="b-staff" type="text" maxlength="40" placeholder="例）山田"></div>
         <div class="url-out"><input id="b-url" type="text" readonly aria-label="作成したURL"><button class="btn" id="b-copy" type="button">コピー</button></div>
       </div>
     </section>
@@ -55,6 +64,9 @@
         <li>来場予約の確認メール（または LINE）に ① のURLを入れて送る</li>
         <li>来場の当日〜翌日に、お礼の連絡と一緒に ② のURLを送る（「まだ分からない」「低い」と答えた方は早めにフォロー）</li>
         <li>失注が分かったら、お礼の連絡と一緒に ③ のURLを送る（営業の連絡には使わないことを伝える）</li>
+        <li>【IS】資料送付のメールに ④ のURLを入れ、回答を見てから電話する（つながりやすい時間帯・知りたいことに合わせて話す）</li>
+        <li>【IS】お電話のあとに ⑤ のURLを送る（担当者名入りのURLを作ると、担当者ごとに印象を比べられる）</li>
+        <li>【IS】アポに至らなかった方には ⑥ のURLを送る（営業の連絡には使わないことを伝える）</li>
         <li>Salesforce では、メールアドレスで既存のお客様と照合して管理する</li>
       </ol>
     </section>
@@ -68,8 +80,8 @@
       });
       function build() {
         var base = new URL(type.value + ".html", location.href);
-        if (place.value && type.value !== "lost") base.searchParams.set("visit_place", place.value);
-        if (staff.value.trim() && type.value === "post") base.searchParams.set("staff", staff.value.trim());
+        if (place.value && !/lost$/.test(type.value)) base.searchParams.set("visit_place", place.value);
+        if (staff.value.trim() && /post$/.test(type.value)) base.searchParams.set("staff", staff.value.trim());
         out.value = base.href;
       }
       [type, place, staff].forEach(function (e) { e.addEventListener("input", build); e.addEventListener("change", build); });

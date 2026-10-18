@@ -176,5 +176,96 @@
         { id: "future_info", short: "今後のご案内", label: "今後、リフォーム・メンテナンスや不動産などのご案内をお送りしてもよろしいですか？", type: "radio", options: ["希望する", "希望しない"], required: true, section: "最後に" },
       ]),
     },
+
+    // ================================================================ インサイドセールス（IS）用
+    // 資料請求者への 0次接客。お電話の前に関心ごとや検討状況、つながりやすい時間帯を把握し、アポ獲得率を上げる
+
+    // ---------------------------------------------------------------- ④ IS 来場前（資料請求者）
+    is_pre: {
+      title: "資料請求ありがとうございます",
+      lead: "このたびは資料をご請求いただき、ありがとうございます。お客様に合ったご案内ができるよう、家づくりのご状況を少しだけお聞かせください。",
+      minutes: 2,
+      questions: name.concat([
+        { id: "kana", short: "フリガナ", label: "フリガナ", type: "text", required: true, placeholder: "例）カバヤ タロウ" },
+        { id: "phone", short: "電話", label: "電話番号", type: "tel", required: true, autocomplete: "tel", placeholder: "例）090-1234-5678" },
+        { id: "email", label: "メールアドレス", type: "email", required: true, autocomplete: "email" },
+        { id: "state", short: "都道府県", label: "都道府県", type: "text", autocomplete: "address-level1", half: true },
+        { id: "city", short: "市区町村", label: "市区町村", type: "text", autocomplete: "address-level2", half: true },
+
+        { id: "request_source", short: "資料請求のきっかけ", label: "当社をどこでお知りになりましたか？", type: "radio", required: true, section: "資料請求について",
+          options: ["SUUMOなどの住宅ポータルサイト", "当社ホームページ", "Instagram・SNS", "チラシ・情報誌", "展示場の前を通って", "知人・家族の紹介", "その他"] },
+        { id: "want_to_know", short: "知りたいこと", label: "資料で特に知りたいことをお選びください。", type: "checkbox", required: true,
+          options: ["地震に強い構造（CLTハイブリッド構法）", "間取り・プランの事例", "価格・費用の目安", "資金計画・住宅ローン", "土地探し", "デザイン・施工事例", "断熱・光熱費", "その他"] },
+
+        { id: "stage", short: "検討段階", label: "現在の家づくりの段階に近いものをお選びください。", type: "radio", required: true, section: "ご検討の状況",
+          options: ["情報収集を始めたばかり", "展示場をいくつか見た", "住宅会社を比較している", "土地を探している", "他社と具体的に打ち合わせ中"] },
+        { id: "desired_timing", short: "入居希望時期", label: "ご入居希望時期をお選びください。", type: "radio", options: ["なるべく早く", "半年～1年以内", "1年～2年以内", "2年以上先", "未定"], required: true },
+        { id: "current_land", short: "土地", label: "土地はお持ちですか？", type: "radio", options: ["はい", "いいえ", "候補の土地がある"] },
+        { id: "other_makers", short: "他に検討中の会社", label: "当社以外で気になっている住宅会社があればお書きください。", type: "text" },
+
+        { id: "visit_interest", short: "見学の意向", label: "展示場・モデルハウスの見学にご興味はありますか？", type: "radio", required: true, section: "今後のご案内について",
+          options: ["ぜひ見学したい", "話を聞いてから考えたい", "今は資料だけで十分"] },
+        { id: "visit_place", short: "見学希望の会場", label: "見学してみたい会場があればお選びください。", type: "select", options: SHOWROOMS,
+          showIf: { id: "visit_interest", in: ["ぜひ見学したい", "話を聞いてから考えたい"] } },
+        { id: "contact_method", short: "希望の連絡方法", label: "ご希望の連絡方法をお選びください。", type: "checkbox", required: true, options: ["電話", "メール", "SMS（ショートメッセージ）", "連絡は控えてほしい"] },
+        { id: "call_time", short: "つながりやすい時間帯", label: "お電話がつながりやすい時間帯をお選びください。", type: "checkbox",
+          showIf: { id: "contact_method", in: ["電話"] },
+          options: ["平日 午前（9〜12時）", "平日 午後（12〜17時）", "平日 夕方以降（17〜20時）", "土日祝"] },
+        { id: "questions_to_ask", short: "聞きたいこと", label: "ご質問やご要望があればお書きください。", type: "textarea" },
+      ]),
+    },
+
+    // ---------------------------------------------------------------- ⑤ IS 来場後（お電話のあと）
+    is_post: {
+      title: "お電話についてのアンケート",
+      lead: "先日はお電話でお時間をいただき、ありがとうございました。より良いご案内のため、お電話の印象をお聞かせください（1分ほどで終わります）。",
+      minutes: 1,
+      questions: name.concat([
+        { id: "email", label: "メールアドレス", type: "email", required: true, autocomplete: "email" },
+        { id: "staff", short: "電話の担当者", label: "お電話を担当した者の名前（分かれば）", type: "text" },
+
+        { id: "call_rating", short: "電話の印象", label: "お電話の印象はいかがでしたか？", type: "radio", required: true, section: "お電話の印象",
+          options: ["とても良かった", "良かった", "普通", "あまり良くなかった", "良くなかった"] },
+        { id: "call_good", short: "電話の良かった点", label: "良かった点をお選びください。", type: "checkbox",
+          showIf: { id: "call_rating", in: ["とても良かった", "良かった", "普通"] },
+          options: ["説明が分かりやすかった", "こちらの話をよく聞いてくれた", "押し付けがなかった", "知りたいことが分かった", "地震に強い構造（CLT）の話に興味を持てた", "電話のタイミングが良かった", "その他"] },
+        { id: "call_bad", short: "電話の気になった点", label: "気になった点があればお選びください。", type: "checkbox",
+          options: ["電話のタイミングが悪かった", "電話が長かった", "営業色が強く感じた", "説明が分かりにくかった", "こちらの状況を理解してもらえなかった", "特になし", "その他"] },
+        { id: "call_text", short: "電話へのご意見", label: "お電話について、ご意見があればお書きください。", type: "text" },
+
+        { id: "clt_interest", short: "CLTへの関心", label: "当社独自の「CLTハイブリッド構法」（地震に強い構造）に興味はありますか？", type: "radio", section: "今後について",
+          options: ["とても興味がある", "少し興味がある", "どちらとも言えない", "あまり興味がない", "まだよく知らない"] },
+        { id: "visit_intent", short: "見学の意向", label: "展示場・モデルハウスの見学について、今のお気持ちに近いものをお選びください。", type: "radio", required: true,
+          options: ["予約した", "近いうちに見学したい", "日程が合えば見学したい", "今は見学の予定はない"] },
+        { id: "visit_place", short: "見学予定の会場", label: "見学予定・希望の会場があればお選びください。", type: "select", options: SHOWROOMS,
+          showIf: { id: "visit_intent", in: ["予約した", "近いうちに見学したい", "日程が合えば見学したい"] } },
+        { id: "next_contact", short: "次回のご連絡", label: "今後のご連絡について、ご希望をお選びください。", type: "radio", required: true,
+          options: ["電話でかまわない", "メール・SMSがいい", "こちらから連絡するまで待ってほしい"] },
+      ]),
+    },
+
+    // ---------------------------------------------------------------- ⑥ IS 失注（見学を見送った方）
+    is_lost: {
+      title: "家づくりの情報収集に関するアンケート",
+      lead: "このたびは当社の資料をご請求いただき、ありがとうございました。今後のご案内の改善のため、率直なご意見をお聞かせください。営業のご連絡には使用いたしません。",
+      minutes: 1,
+      questions: name.concat([
+        { id: "email", label: "メールアドレス", type: "email", required: true, autocomplete: "email" },
+
+        { id: "current_status", short: "現在の状況", label: "現在の家づくりのご状況をお選びください。", type: "radio", required: true, section: "現在のご状況",
+          options: ["まだ情報収集の段階", "他社で検討を進めている", "他社で決めた", "家づくりを延期・中止した", "その他"] },
+        { id: "no_visit_reasons", short: "見学しない理由", label: "当社の展示場の見学を見送った理由をお選びください。", type: "checkbox", required: true,
+          options: ["まだ見学するには早い", "時間が取れない", "展示場が遠い", "営業されるのが心配", "他社で検討を進めている", "価格帯が合わなそう", "地震に強い構造（CLT）の必要性を感じない", "資料で十分だった", "その他"] },
+        { id: "no_visit_text", short: "見送った理由（詳細）", label: "上記について、よろしければ詳しくお聞かせください。", type: "text" },
+
+        { id: "contact_impression", short: "連絡の印象", label: "当社からのご連絡（お電話・メール）はいかがでしたか？", type: "radio", section: "当社からのご連絡について",
+          options: ["ちょうど良かった", "回数が多かった", "時間帯が合わなかった", "内容が自分に合っていなかった", "連絡はなかった・覚えていない"] },
+        { id: "material_rating", short: "資料の印象", label: "お送りした資料はいかがでしたか？", type: "radio",
+          options: ["とても参考になった", "参考になった", "普通", "あまり参考にならなかった", "まだ見ていない"] },
+        { id: "wanted_info", short: "欲しい情報", label: "今後あれば役立つ情報をお選びください。", type: "checkbox", section: "今後について",
+          options: ["見学会・イベントのご案内", "施工事例", "資金計画・住宅ローンのセミナー", "土地情報", "特に必要ない"] },
+        { id: "future_info", short: "今後のご案内", label: "今後、メールなどで情報をお送りしてもよろしいですか？", type: "radio", options: ["希望する", "希望しない"], required: true },
+      ]),
+    },
   };
 })();

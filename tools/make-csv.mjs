@@ -5,7 +5,7 @@ const ctx = { window: {} };
 vm.runInNewContext(fs.readFileSync(new URL("../assets/surveys.js", import.meta.url), "utf8"), ctx);
 const STD = { last_name: "姓（標準）", first_name: "名（標準）", email: "メール（標準）", phone: "電話（標準）", zip: "郵便番号（標準）", state: "都道府県（標準）", city: "市区郡（標準）", street: "町名・番地（標準）" };
 const TYPE = { text: "テキスト", email: "メール", tel: "電話", zip: "テキスト", number: "数値", textarea: "ロングテキストエリア", radio: "選択リスト", select: "選択リスト", checkbox: "複数選択リスト", date: "日付" };
-const NAME = { pre: "来場前", post: "来場後", lost: "失注者" };
+const NAME = { pre: "来場前", post: "来場後", lost: "失注者", is_pre: "IS資料請求者", is_post: "ISお電話後", is_lost: "IS見学見送り" };
 const q = (s) => `"${String(s ?? "").replace(/"/g, '""')}"`;
 const rows = [["アンケート", "設問ID", "質問", "必須", "推奨する項目の型", "選択肢（;区切り）", "表示条件", "標準項目"].map(q).join(",")];
 for (const [key, s] of Object.entries(ctx.window.SURVEYS)) {
