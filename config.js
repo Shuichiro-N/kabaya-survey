@@ -58,5 +58,5 @@ window.SURVEY_CONFIG = {
   },
 
   privacyUrl: "https://lifedesign-kabaya.co.jp/privacy/",
-  companyName: "ライフデザイン・カバヤ",
+  companyName: "ライフデザイン・カバヤ株式会社",
 };
