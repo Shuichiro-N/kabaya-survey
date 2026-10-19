@@ -307,8 +307,7 @@
         { id: "top_factor", short: "一番の決め手", label: "その中で、一番の決め手を1つお選びください。", type: "radio", required: true,
           options: ["CLTハイブリッド構法（耐震性）", "間取り・プランの提案", "外観デザイン", "内装デザイン", "断熱・省エネなどの性能", "設備", "価格", "営業担当者の対応", "設計担当者の提案", "会社の信頼性", "アフターサービス・保証", "土地の提案", "その他"] },
         { id: "compared", short: "他社との比較", label: "ご契約までに、他社と比較検討されましたか？", type: "radio", required: true, options: ["はい", "いいえ"] },
-        { id: "compared_companies", short: "比較した会社", label: "比較された会社をお選びください。", type: "checkbox", showIf: { id: "compared", in: ["はい"] },
-          options: ["積水ハウス", "大和ハウス", "住友林業", "セキスイハイム", "パナソニック ホームズ", "一条工務店", "タマホーム", "アイ工務店", "地元の工務店", "その他"] },
+        { id: "compared_companies", short: "比較した会社", label: "比較された会社名をお書きください（複数ある場合は「、」で区切ってください）。", type: "text", showIf: { id: "compared", in: ["はい"] }, placeholder: "例）〇〇ホーム、△△工務店" },
 
         // ---- CLTハイブリッド構法について（カバヤ最大の強み）
         { id: "clt_awareness", short: "契約前のCLT認知", label: "ご検討を始めた頃、当社独自の「CLTハイブリッド構法」をご存じでしたか？", type: "radio", required: true, section: "CLTハイブリッド構法について",
