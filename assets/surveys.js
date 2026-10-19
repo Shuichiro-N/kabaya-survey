@@ -135,8 +135,8 @@
         { id: "staff_bad_text", short: "担当者（悪い点の詳細）", label: "上記の理由を簡単にお聞かせください。", type: "text", showIf: { id: "staff_rating", in: ["悪かった", "とても悪かった"] } },
 
         // 当社の最大の強み「CLTハイブリッド構法」の伝わり方を、性能全般とは分けて聞く
-        { id: "clt_awareness", short: "来場前のCLT認知", label: "ご来場前から、当社独自の「CLTハイブリッド構法」をご存じでしたか？", type: "radio", required: true, section: "CLTハイブリッド構法について",
-          options: ["内容までよく知っていた", "名前は聞いたことがあった", "知らなかった"] },
+        { id: "clt_change", short: "CLTの印象の変化", label: "ご来場・ご説明を通じて、当社独自の「CLTハイブリッド構法」の印象は変わりましたか？", type: "radio", required: true, section: "CLTハイブリッド構法について",
+          options: ["とても良くなった", "良くなった", "変わらない", "悪くなった", "来場前は知らなかった"] },
         { id: "clt_impression", short: "CLTの印象", label: "「CLTハイブリッド構法」のご説明を聞いて、どのように感じましたか？", type: "radio", required: true,
           options: ["とても魅力的に感じた", "魅力的に感じた", "どちらとも言えない", "あまり魅力を感じなかった", "説明を聞いていない・よく分からなかった"] },
         { id: "clt_good", short: "CLTの良い点", label: "CLTハイブリッド構法で、特に良いと感じた点をお選びください。", type: "checkbox",
