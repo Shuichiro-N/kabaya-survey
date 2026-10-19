@@ -42,6 +42,7 @@ window.SURVEY_CONFIG = {
   surveyTypeLabels: {
     pre: "来場前アンケート", post: "来場後アンケート", lost: "失注アンケート",
     is_pre: "IS資料請求アンケート", is_post: "IS電話後アンケート", is_lost: "IS見送りアンケート",
+    handover: "引き渡し後アンケート",
   },
   // アンケート種別を送るアンケート。Salesforce の選択リストに値がない種別を送るとリードが作られないため、
   // 選択リストに値を追加したアンケートだけをここに入れる
@@ -69,6 +70,8 @@ window.SURVEY_CONFIG = {
     },
     is_post: { last_name: "last_name", first_name: "first_name", email: "email", visit_place: "00NQ800000Xnztl" },
     is_lost: { last_name: "last_name", first_name: "first_name", email: "email" },
+    // お引き渡し後
+    handover: { last_name: "last_name", first_name: "first_name", email: "email" },
   },
 
   privacyUrl: "https://lifedesign-kabaya.co.jp/privacy/",

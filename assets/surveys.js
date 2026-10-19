@@ -27,6 +27,8 @@
     "まちかどモデルハウス", "ライフデザイン・カバヤ不動産 店舗", "完成見学会・お施主様邸見学会", "オンライン相談", "その他",
   ];
 
+  var SAT5 = ["大変満足", "満足", "普通", "不満", "非常に不満"];
+
   var INCOME = ["～299万円", "300万円～", "400万円～", "500万円～", "600万円～", "700万円～", "800万円～", "900万円～", "1,000万円～"];
 
   // CLTハイブリッド構法の認知（当社の説明を聞く前に、お客様がもともと知っていたかを測る）
@@ -280,6 +282,88 @@
         { id: "wanted_info", short: "欲しい情報", label: "今後あれば役立つ情報をお選びください。", type: "checkbox", section: "今後について",
           options: ["見学会・イベントのご案内", "施工事例", "資金計画・住宅ローンのセミナー", "土地情報", "特に必要ない"] },
         { id: "future_info", short: "今後のご案内", label: "今後、メールなどで情報をお送りしてもよろしいですか？", type: "radio", options: ["希望する", "希望しない"], required: true },
+      ]),
+    },
+    // ================================================================ ⑦ お引き渡し後
+    // フレスコホーム様のお引き渡しアンケートを参考に、カバヤの強み（CLTハイブリッド構法）と担当者の評価を厚くしたもの
+    handover: {
+      title: "お引き渡し後アンケート",
+      lead: "このたびは、ライフデザイン・カバヤで住まいをお建ていただき、誠にありがとうございました。お客様の声を今後の家づくりとサービスに活かすため、アンケートへのご協力をお願いいたします。",
+      minutes: 6,
+      questions: name.concat([
+        { id: "email", label: "メールアドレス", type: "email", required: true, autocomplete: "email" },
+        { id: "build_city", short: "建築地", label: "建築地（市区町村まで）", type: "text", required: true, placeholder: "例）岡山市北区（番地は不要です）" },
+        { id: "handover_date", short: "お引き渡し日", label: "お引き渡し日", type: "date" },
+
+        { id: "handover_rating", short: "引き渡し説明の満足度", label: "お引き渡しの際のご説明はいかがでしたか？", type: "radio", required: true, section: "お引き渡しについて", options: SAT5 },
+        { id: "handover_clarity", short: "説明の分かりやすさ", label: "ご説明は、分かりやすく丁寧でしたか？", type: "radio", required: true, options: SAT5 },
+
+        { id: "first_contact", short: "最初に知ったきっかけ", label: "当社を最初に知ったきっかけは何ですか？", type: "radio", required: true, section: "ご契約までについて",
+          options: ["展示場・モデルハウス", "まちかどモデルハウス", "SUUMO注文住宅ネット", "その他の住宅ポータルサイト", "当社ホームページ", "Instagram・SNS", "完成見学会・建築現場", "チラシ・情報誌", "知人・当社社員からの紹介", "その他"] },
+        { id: "purchase_reason", short: "家づくりのきっかけ", label: "家づくりをしようと思ったきっかけは何ですか？", type: "checkbox", required: true,
+          options: ["子どもや家族のため", "もっと広い家に住みたかった", "家賃がもったいない", "結婚・出産を機に", "老後の安心のため", "資産として持ちたかった", "地震に強い家に住みたかった", "親との同居・住み替えのため", "その他"] },
+        { id: "decision_factors", short: "契約の決め手", label: "数ある住宅会社の中から、当社を選ばれた決め手は何でしたか？", type: "checkbox", required: true,
+          options: ["CLTハイブリッド構法（耐震性）", "間取り・プランの提案", "外観デザイン", "内装デザイン", "断熱・省エネなどの性能", "設備", "価格", "営業担当者の対応", "設計担当者の提案", "会社の信頼性", "アフターサービス・保証", "土地の提案", "その他"] },
+        { id: "top_factor", short: "一番の決め手", label: "その中で、一番の決め手を1つお選びください。", type: "radio", required: true,
+          options: ["CLTハイブリッド構法（耐震性）", "間取り・プランの提案", "外観デザイン", "内装デザイン", "断熱・省エネなどの性能", "設備", "価格", "営業担当者の対応", "設計担当者の提案", "会社の信頼性", "アフターサービス・保証", "土地の提案", "その他"] },
+        { id: "compared", short: "他社との比較", label: "ご契約までに、他社と比較検討されましたか？", type: "radio", required: true, options: ["はい", "いいえ"] },
+        { id: "compared_companies", short: "比較した会社", label: "比較された会社をお選びください。", type: "checkbox", showIf: { id: "compared", in: ["はい"] },
+          options: ["積水ハウス", "大和ハウス", "住友林業", "セキスイハイム", "パナソニック ホームズ", "一条工務店", "タマホーム", "アイ工務店", "地元の工務店", "その他"] },
+
+        // ---- CLTハイブリッド構法について（カバヤ最大の強み）
+        { id: "clt_awareness", short: "契約前のCLT認知", label: "ご検討を始めた頃、当社独自の「CLTハイブリッド構法」をご存じでしたか？", type: "radio", required: true, section: "CLTハイブリッド構法について",
+          options: ["内容までよく知っていた", "名前は聞いたことがあった", "知らなかった"] },
+        { id: "clt_decision", short: "CLTの契約への影響", label: "CLTハイブリッド構法は、ご契約の決め手にどのくらい影響しましたか？", type: "radio", required: true,
+          options: ["一番の決め手だった", "大きく影響した", "少し影響した", "あまり影響しなかった", "まったく影響しなかった"] },
+        { id: "clt_explained", short: "CLTの説明", label: "ご契約からお引き渡しまでの、CLTハイブリッド構法のご説明は十分でしたか？", type: "radio", required: true,
+          options: ["十分だった", "おおむね十分だった", "やや物足りなかった", "物足りなかった"] },
+        { id: "clt_feel", short: "住んで感じるCLTの良さ", label: "実際に住んでみて、CLTハイブリッド構法の良さを感じる点をお選びください。", type: "checkbox", required: true,
+          options: ["地震への安心感", "揺れにくさ", "柱や壁の少ない大きな空間", "間取りの自由度", "木の質感・ぬくもり", "静かさ", "暖かさ・快適さ", "まだ実感はない", "その他"] },
+        { id: "clt_recommend", short: "CLTを人に勧めたいか", label: "CLTハイブリッド構法を、ご家族やご友人に勧めたいと思いますか？", type: "radio", required: true,
+          options: ["ぜひ勧めたい", "勧めたい", "どちらとも言えない", "あまり勧めたくない", "勧めたくない"] },
+        { id: "clt_text", short: "CLTへのご意見", label: "CLTハイブリッド構法について、ご感想やご意見があればお聞かせください。", type: "textarea" },
+
+        // ---- 担当者について（営業・設計・インテリアコーディネーター・工事監督）
+        { id: "reception_rating", short: "受付スタッフの対応", label: "展示場・店舗の受付スタッフの対応はいかがでしたか？", type: "radio", section: "担当者について（営業）", options: SAT5.concat(["分からない"]) },
+        { id: "sales_name", short: "営業担当者", label: "営業担当者のお名前（姓のみで結構です）", type: "text", required: true, placeholder: "例）山田" },
+        { id: "sales_manner", short: "営業：接客態度", label: "営業担当者の接客態度はいかがでしたか？", type: "radio", required: true, options: SAT5 },
+        { id: "sales_product", short: "営業：商品・CLTの説明", label: "住まいやCLTハイブリッド構法についての説明は、分かりやすく丁寧でしたか？", type: "radio", required: true, options: SAT5 },
+        { id: "sales_finance", short: "営業：資金計画", label: "資金計画・住宅ローンについてのアドバイスはいかがでしたか？", type: "radio", required: true, options: SAT5 },
+        { id: "sales_response", short: "営業：連絡・対応の早さ", label: "連絡や対応のスピードはいかがでしたか？", type: "radio", required: true, options: SAT5 },
+        { id: "sales_text", short: "営業担当者へ一言", label: "営業担当者に、どんなことでも一言お願いいたします。", type: "textarea" },
+
+        { id: "design_name", short: "設計担当者", label: "設計担当者のお名前（姓のみで結構です）", type: "text", section: "担当者について（設計）", placeholder: "例）佐藤" },
+        { id: "design_manner", short: "設計：接客態度", label: "設計担当者の接客態度はいかがでしたか？", type: "radio", required: true, options: SAT5 },
+        { id: "design_plan", short: "設計：プラン・デザイン提案", label: "プランやデザインの提案はいかがでしたか？", type: "radio", required: true, options: SAT5 },
+        { id: "design_clt", short: "設計：CLTを活かした提案", label: "CLTハイブリッド構法を活かした間取り・空間の提案はいかがでしたか？", type: "radio", required: true, options: SAT5 },
+        { id: "design_text", short: "設計担当者へ一言", label: "設計担当者に、どんなことでも一言お願いいたします。", type: "textarea" },
+
+        { id: "ic_name", short: "インテリアコーディネーター", label: "インテリアコーディネーターのお名前（姓のみで結構です）", type: "text", section: "担当者について（インテリアコーディネーター）", placeholder: "例）伊藤" },
+        { id: "ic_manner", short: "IC：接客態度", label: "インテリアコーディネーターの接客態度はいかがでしたか？", type: "radio", options: SAT5.concat(["担当がいなかった"]) },
+        { id: "ic_proposal", short: "IC：コーディネート提案", label: "コーディネートの提案はいかがでしたか？", type: "radio", options: SAT5.concat(["担当がいなかった"]) },
+        { id: "ic_schedule", short: "IC：打ち合わせの段取り", label: "打ち合わせの段取りはいかがでしたか？", type: "radio", options: SAT5.concat(["担当がいなかった"]) },
+        { id: "ic_text", short: "インテリアコーディネーターへ一言", label: "インテリアコーディネーターに、どんなことでも一言お願いいたします。", type: "textarea" },
+
+        { id: "super_name", short: "工事監督", label: "工事監督のお名前（姓のみで結構です）", type: "text", section: "担当者について（工事監督・職人）", placeholder: "例）田中" },
+        { id: "super_manner", short: "監督：接客態度", label: "工事監督の接客態度はいかがでしたか？", type: "radio", required: true, options: SAT5 },
+        { id: "super_contact", short: "監督：工事中の連絡", label: "工事中の進み具合のご連絡はいかがでしたか？", type: "radio", required: true, options: SAT5 },
+        { id: "super_site", short: "監督：現場の整理整頓", label: "現場の整理整頓はいかがでしたか？", type: "radio", required: true, options: SAT5 },
+        { id: "craftsmen", short: "職人の印象", label: "現場の職人さんの印象はいかがでしたか？", type: "radio", required: true, options: SAT5.concat(["会っていない・分からない"]) },
+        { id: "super_text", short: "工事監督・職人へ一言", label: "工事監督や職人さんに、どんなことでも一言お願いいたします。", type: "textarea" },
+        { id: "best_staff", short: "印象に残った担当者", label: "特に印象に残った担当者と、その理由があればお聞かせください。", type: "textarea" },
+
+        { id: "favorite_points", short: "住まいの気に入っているところ", label: "お住まいの気に入っているところをお選びください。", type: "checkbox", required: true, section: "お住まいについて",
+          options: ["間取り・プラン", "リビング・ダイニングの広さ", "日当たり", "キッチン・お風呂などの設備", "収納", "家事動線", "外観デザイン", "内装デザイン", "暖かさ・断熱", "静かさ", "構造への安心感（CLT）", "庭・外構", "その他"] },
+        { id: "overall", short: "総合満足度", label: "当社での家づくり全体の満足度をお聞かせください。", type: "radio", required: true, options: SAT5 },
+        { id: "recommend", short: "知人に勧めたいか", label: "ご家族やご友人に、当社での家づくりを勧めたいと思いますか？", type: "radio", required: true,
+          options: ["ぜひ勧めたい", "勧めたい", "どちらとも言えない", "あまり勧めたくない", "勧めたくない"] },
+        { id: "overall_text", short: "家づくり全体へのご意見", label: "家づくり全体を通して、良かったこと・改善してほしいことがあればお聞かせください。", type: "textarea" },
+
+        { id: "case_study", short: "施工事例・取材への協力", label: "お住まいを施工事例やお客様の声としてご紹介させていただくことは可能ですか？", type: "radio", required: true, section: "最後に",
+          options: ["協力できる", "内容によっては協力できる", "難しい"] },
+        { id: "referral_info", short: "ご紹介制度の案内", label: "ご家族やご友人をご紹介いただく際の「ご紹介制度」のご案内を希望されますか？", type: "radio", options: ["希望する", "希望しない"] },
+        { id: "family_size", short: "同居のご家族", label: "同居されるご家族は何名ですか？", type: "radio", options: ["1人", "2人", "3人", "4人", "5人以上"] },
+        { id: "children_count", short: "お子様の人数", label: "お子様の人数を教えてください。", type: "radio", options: ["いない", "1人", "2人", "3人", "4人以上"] },
       ]),
     },
   };

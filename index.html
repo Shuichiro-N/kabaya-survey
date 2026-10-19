@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <title>来場アンケート（社内向け案内）｜ライフデザイン・カバヤ</title>
-  <link rel="stylesheet" href="assets/style.css?v=202610191504">
+  <link rel="stylesheet" href="assets/style.css?v=202610191514">
   <style>
     .links { display: grid; gap: 12px; flex-basis: 100%; margin-top: 12px; }
     .link-card { display: block; padding: 16px 18px; border: 1px solid var(--line); border-radius: 12px; color: inherit; text-decoration: none; }
@@ -18,14 +18,14 @@
     .btn { min-height: 48px; padding: 0 18px; border: 0; border-radius: 10px; background: var(--ink); color: #fff; font: inherit; font-weight: 700; cursor: pointer; white-space: nowrap; }
     ol { margin: 8px 0 0; padding-left: 1.4em; color: var(--ink-2); }
   </style>
-  <script src="assets/surveys.js?v=202610191504" defer></script>
+  <script src="assets/surveys.js?v=202610191514" defer></script>
 </head>
 <body>
   <header class="site-header"><img class="logo" src="assets/logo.svg" alt="ライフデザイン・カバヤ" width="265" height="45"></header>
   <main class="container">
     <section class="intro">
       <h1>来場アンケート（社内向け案内）</h1>
-      <p>お客様に送るアンケートは、営業（展示場）用3種類と、インサイドセールス用3種類です。回答は Salesforce に自動で登録されます（送信先の設定は config.js）。</p>
+      <p>お客様に送るアンケートは、営業（展示場）用3種類、インサイドセールス用3種類、お引き渡し後1種類の全7種類です。回答は Salesforce に自動で登録されます（送信先の設定は config.js）。</p>
     </section>
 
     <section class="card">
@@ -47,11 +47,18 @@
     </section>
 
     <section class="card">
+      <h2>オーナー様用</h2>
+      <div class="links">
+        <a class="link-card" href="handover.html" target="_blank"><strong>⑦ お引き渡し後アンケート（約6分）</strong><span>お引き渡し後に送る。契約の決め手、CLTハイブリッド構法の実感、担当者（営業・設計・インテリアコーディネーター・工事監督）ごとの評価、施工事例への協力可否を集める</span></a>
+      </div>
+    </section>
+
+    <section class="card">
       <h2>お客様に送るURLを作る</h2>
       <div class="builder">
         <p class="note" style="margin:0;color:var(--muted);font-size:13px">展示場・担当者をあらかじめ入れたURLを作れます。お名前・メールアドレスは、個人情報がURLに残らないよう、お客様ご自身に入力していただきます。</p>
         <div class="field"><label class="label" for="b-type">アンケート</label>
-          <select id="b-type"><option value="pre">① 来場前</option><option value="post" selected>② 来場後</option><option value="lost">③ 失注者</option><option value="is-pre">④ IS 資料請求者</option><option value="is-post">⑤ IS お電話後</option><option value="is-lost">⑥ IS 見学見送り</option></select></div>
+          <select id="b-type"><option value="pre">① 来場前</option><option value="post" selected>② 来場後</option><option value="lost">③ 失注者</option><option value="is-pre">④ IS 資料請求者</option><option value="is-post">⑤ IS お電話後</option><option value="is-lost">⑥ IS 見学見送り</option><option value="handover">⑦ お引き渡し後</option></select></div>
         <div class="field"><label class="label" for="b-place">展示場（任意）</label><select id="b-place"><option value="">指定しない</option></select></div>
         <div class="field"><label class="label" for="b-staff">担当者名（任意・② 来場後と ⑤ お電話後のみ）</label><input id="b-staff" type="text" maxlength="40" placeholder="例）山田"></div>
         <div class="url-out"><input id="b-url" type="text" readonly aria-label="作成したURL"><button class="btn" id="b-copy" type="button">コピー</button></div>
@@ -67,6 +74,7 @@
         <li>【IS】資料送付のメールに ④ のURLを入れ、回答を見てから電話する（つながりやすい時間帯・知りたいことに合わせて話す）</li>
         <li>【IS】お電話のあとに ⑤ のURLを送る（担当者名入りのURLを作ると、担当者ごとに印象を比べられる）</li>
         <li>【IS】アポに至らなかった方には ⑥ のURLを送る（営業の連絡には使わないことを伝える）</li>
+        <li>【オーナー様】お引き渡しの後、お礼の連絡と一緒に ⑦ のURLを送る（担当者ごとの評価は、社内の振り返りに使う）</li>
         <li>Salesforce では、メールアドレスで既存のお客様と照合して管理する</li>
       </ol>
     </section>
@@ -80,7 +88,7 @@
       });
       function build() {
         var base = new URL(type.value + ".html", location.href);
-        if (place.value && !/lost$/.test(type.value)) base.searchParams.set("visit_place", place.value);
+        if (place.value && !/lost$|handover/.test(type.value)) base.searchParams.set("visit_place", place.value);
         if (staff.value.trim() && /post$/.test(type.value)) base.searchParams.set("staff", staff.value.trim());
         out.value = base.href;
       }

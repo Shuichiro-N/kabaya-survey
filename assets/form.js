@@ -344,7 +344,9 @@
     main.textContent = "";
     main.appendChild(el("section", { class: "intro thanks" }, [
       el("h1", { text: "ご回答ありがとうございました" }),
-      el("p", { text: /lost$/.test(key)
+      el("p", { text: key === "handover"
+        ? "貴重なご意見をありがとうございました。これからも末永く、住まいのことでお困りの際はお気軽にご相談ください。"
+        : /lost$/.test(key)
         ? "貴重なご意見をありがとうございました。今後のサービス改善に役立ててまいります。"
         : "いただいた内容をもとに、担当者よりご案内いたします。今後ともよろしくお願いいたします。" }),
     ]));
