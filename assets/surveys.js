@@ -29,6 +29,17 @@
 
   var INCOME = ["～299万円", "300万円～", "400万円～", "500万円～", "600万円～", "700万円～", "800万円～", "900万円～", "1,000万円～"];
 
+  // CLTハイブリッド構法の認知（当社の説明を聞く前に、お客様がもともと知っていたかを測る）
+  var CLT_KNOWN = ["内容までよく知っていた", "名前は聞いたことがあった"];
+  var cltAwareness = [
+    { id: "clt_awareness", short: "CLTの認知", label: "当社独自の「CLTハイブリッド構法」をご存じでしたか？", type: "radio", required: true, section: "CLTハイブリッド構法について",
+      options: ["内容までよく知っていた", "名前は聞いたことがあった", "知らなかった"] },
+    { id: "clt_source", short: "CLTを知ったきっかけ", label: "どこでお知りになりましたか？", type: "checkbox", showIf: { id: "clt_awareness", in: CLT_KNOWN },
+      options: ["当社ホームページ", "SUUMOなどの住宅情報サイト", "Instagram・SNS", "テレビ・新聞・雑誌", "展示場・イベント", "知人・家族から", "その他"] },
+    { id: "clt_influence", short: "CLTの影響", label: "CLTハイブリッド構法は、当社に興味を持ったきっかけになりましたか？", type: "radio", showIf: { id: "clt_awareness", in: CLT_KNOWN },
+      options: ["大きなきっかけになった", "少しきっかけになった", "関係なかった"] },
+  ];
+
   // お名前・連絡先（3つのアンケート共通の部品）
   var name = [
     { id: "last_name", label: "姓", type: "text", required: true, half: true, autocomplete: "family-name", section: "お客様情報" },
@@ -87,12 +98,13 @@
         { id: "household_head_income", short: "世帯主の年収", label: "世帯主様の年収", type: "radio", options: INCOME.slice(0, 6) },
         { id: "household_income", short: "世帯年収", label: "世帯合計（配偶者様を含めた合計）の年収", type: "radio", options: INCOME },
 
+      ].concat(cltAwareness, [
         { id: "expectations", short: "期待すること", label: "今後、家づくりで期待すること・見てみたいものをお選びください。", type: "checkbox", section: "今後について",
           options: ["建築中の現場を見てみたい", "完成した建物を見てみたい", "住宅の性能を体感したい", "実際に住んでいる方のお話を聞いてみたい", "地盤調査をしてほしい", "ライフプラン・資金計画の相談をしたい", "土地探しを手伝ってほしい"] },
         { id: "referral", short: "紹介者", label: "ご紹介者様はいらっしゃいますか？", type: "radio", options: ["はい", "いいえ"] },
         { id: "referral_name", short: "紹介者名", label: "ご紹介者様のお名前", type: "text", showIf: { id: "referral", in: ["はい"] } },
         { id: "comments", short: "当日聞きたいこと", label: "当日聞いてみたいことなど、ご自由にお書きください。", type: "textarea" },
-      ]),
+      ])),
     },
 
     // ---------------------------------------------------------------- 来場後
@@ -123,7 +135,9 @@
         { id: "staff_bad_text", short: "担当者（悪い点の詳細）", label: "上記の理由を簡単にお聞かせください。", type: "text", showIf: { id: "staff_rating", in: ["悪かった", "とても悪かった"] } },
 
         // 当社の最大の強み「CLTハイブリッド構法」の伝わり方を、性能全般とは分けて聞く
-        { id: "clt_impression", short: "CLTの印象", label: "当社独自の「CLTハイブリッド構法」のご説明を聞いて、どのように感じましたか？", type: "radio", required: true, section: "CLTハイブリッド構法について",
+        { id: "clt_awareness", short: "来場前のCLT認知", label: "ご来場前から、当社独自の「CLTハイブリッド構法」をご存じでしたか？", type: "radio", required: true, section: "CLTハイブリッド構法について",
+          options: ["内容までよく知っていた", "名前は聞いたことがあった", "知らなかった"] },
+        { id: "clt_impression", short: "CLTの印象", label: "「CLTハイブリッド構法」のご説明を聞いて、どのように感じましたか？", type: "radio", required: true,
           options: ["とても魅力的に感じた", "魅力的に感じた", "どちらとも言えない", "あまり魅力を感じなかった", "説明を聞いていない・よく分からなかった"] },
         { id: "clt_good", short: "CLTの良い点", label: "CLTハイブリッド構法で、特に良いと感じた点をお選びください。", type: "checkbox",
           showIf: { id: "clt_impression", in: ["とても魅力的に感じた", "魅力的に感じた", "どちらとも言えない"] },
@@ -197,6 +211,7 @@
         { id: "want_to_know", short: "知りたいこと", label: "資料で特に知りたいことをお選びください。", type: "checkbox", required: true,
           options: ["CLTハイブリッド構法について", "間取り・プランの事例", "価格・費用の目安", "資金計画・住宅ローン", "土地探し", "デザイン・施工事例", "断熱・光熱費", "その他"] },
 
+      ].concat(cltAwareness, [
         { id: "stage", short: "検討段階", label: "現在の家づくりの段階に近いものをお選びください。", type: "radio", required: true, section: "ご検討の状況",
           options: ["情報収集を始めたばかり", "展示場をいくつか見た", "住宅会社を比較している", "土地を探している", "他社と具体的に打ち合わせ中"] },
         { id: "desired_timing", short: "入居希望時期", label: "ご入居希望時期をお選びください。", type: "radio", options: ["なるべく早く", "半年～1年以内", "1年～2年以内", "2年以上先", "未定"], required: true },
@@ -212,7 +227,7 @@
           showIf: { id: "contact_method", in: ["電話"] },
           options: ["平日 午前（9〜12時）", "平日 午後（12〜17時）", "平日 夕方以降（17〜20時）", "土日祝"] },
         { id: "questions_to_ask", short: "聞きたいこと", label: "ご質問やご要望があればお書きください。", type: "textarea" },
-      ]),
+      ])),
     },
 
     // ---------------------------------------------------------------- ⑤ IS 来場後（お電話のあと）
